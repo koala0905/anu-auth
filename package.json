@@ -14,7 +14,6 @@
     "type": "git",
     "url": "git+https://github.com/koala0905/anu-auth.git"
   },
-  "license": "ISC",
   "author": "Pochun Tseng",
   "type": "module",
   "main": "dist/index.js",
