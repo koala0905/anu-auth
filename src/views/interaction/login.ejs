@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Sign in</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+            },
+            accent: {
+              50: '#f5f3ff',
+            },
+            error: {
+              50: '#fef2f2',
+              100: '#fee2e2',
+              700: '#b91c1c',
+            },
+          },
+        },
+      },
+    };
+  </script>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-brand-50 via-white to-accent-50 px-4 py-8">
+
+  <div class="w-full max-w-md">
+
+    <!-- Logo / Brand -->
+    <div class="flex flex-col items-center mb-8">
+
+      <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shadow-lg shadow-brand-500/30 mb-4">
+        <i data-lucide="shield" class="w-8 h-8 text-white"></i>
+      </div>
+
+      <h1 class="text-2xl font-bold text-slate-900">
+        Sign in to your account
+      </h1>
+
+      <p class="text-sm text-slate-500 mt-1">
+        Secure access to your OAuth identity
+      </p>
+
+    </div>
+
+
+    <!-- Card -->
+    <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 p-8">
+
+      <form method="post" action="" class="space-y-5">
+
+        <!-- Username -->
+        <div>
+
+          <label class="block text-sm font-medium text-slate-700 mb-1.5">
+            Username
+          </label>
+
+          <div class="relative">
+
+            <i
+              data-lucide="user"
+              class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"
+            ></i>
+
+            <input
+              type="text"
+              name="username"
+              required
+              autocomplete="username"
+              placeholder="Enter your username"
+              class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-200 text-slate-900 placeholder-slate-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 focus:outline-none transition-all text-sm"
+            >
+
+          </div>
+
+        </div>
+
+
+        <!-- Password -->
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="block text-sm font-medium text-slate-700 mb-1.5">
+              Password
+            </label>
+
+            <a
+              href="/forgot-password"
+              class="text-xs text-brand-600 hover:text-brand-700 font-medium transition-colors"
+            >
+              Forgot password?
+            </a>
+          </div>
+
+          <div class="relative">
+
+            <i
+              data-lucide="lock"
+              class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"
+            ></i>
+
+            <input
+              id="password"
+              type="password"
+              name="password"
+              required
+              autocomplete="current-password"
+              placeholder="Enter your password"
+              class="w-full pl-10 pr-10 py-2.5 rounded-lg border border-slate-200 text-slate-900 placeholder-slate-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 focus:outline-none transition-all text-sm"
+            >
+
+            <button
+              type="button"
+              id="toggle-password"
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+            >
+              <i data-lucide="eye" class="w-4 h-4"></i>
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- Error -->
+        <% if (typeof error !== 'undefined' && error) { %>
+
+          <div class="flex items-start gap-2 p-3 rounded-lg bg-error-50 border border-error-100 text-sm text-error-700">
+
+            <i
+              data-lucide="circle-alert"
+              class="w-4 h-4 flex-shrink-0 mt-0.5"
+            ></i>
+
+            <span><%= error %></span>
+
+          </div>
+
+        <% } %>
+
+
+        <!-- Submit -->
+        <button
+          type="submit"
+          class="w-full py-2.5 rounded-lg bg-brand-600 text-white font-medium hover:bg-brand-700 focus:ring-2 focus:ring-brand-500/20 focus:outline-none transition-all flex items-center justify-center gap-2 text-sm shadow-md shadow-brand-500/20"
+        >
+
+          <i data-lucide="key-round" class="w-4 h-4"></i>
+
+          Sign in
+
+        </button>
+
+      </form>
+
+      <!-- Divider -->
+      <div class="relative my-6">
+        <div class="absolute inset-0 flex items-center">
+          <div class="w-full border-t border-slate-100"></div>
+        </div>
+
+        <div class="relative flex justify-center text-xs">
+          <span class="px-3 bg-white text-slate-400">
+            or
+          </span>
+        </div>
+      </div>
+
+      <!-- Passkey -->
+      <button
+        type="button"
+        id="passkey-login"
+        class="w-full py-2.5 rounded-lg border border-slate-200 text-slate-700 font-medium hover:bg-slate-50 hover:border-slate-300 focus:ring-2 focus:ring-brand-500/20 focus:outline-none transition-all flex items-center justify-center gap-2 text-sm"
+      >
+        <i data-lucide="fingerprint" class="w-4 h-4"></i>
+        Sign in with Passkey
+      </button>
+
+    </div>
+
+
+    <!-- Security footer -->
+    <p class="text-center text-xs text-slate-400 mt-6 flex items-center justify-center gap-1.5">
+
+      <i data-lucide="shield" class="w-3 h-3"></i>
+
+      Protected by end-to-end encryption
+
+    </p>
+
+  </div>
+
+</div>
+
+
+<script>
+
+  lucide.createIcons();
+
+  const password = document.getElementById('password');
+  const togglePassword = document.getElementById('toggle-password');
+
+  togglePassword.addEventListener('click', () => {
+    const isPassword = password.type === 'password';
+
+    password.type = isPassword ? 'text' : 'password';
+
+    togglePassword.innerHTML = `
+      <i
+        data-lucide="${isPassword ? 'eye-off' : 'eye'}"
+        class="w-4 h-4"
+      ></i>
+    `;
+
+    lucide.createIcons();
+  });
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,179 @@
+<% 
+    const scopeMeta = {
+        openid:  { icon: 'user-shield', label: 'Sign you in', desc: 'Establish your identity' },
+        profile: { icon: 'user-round', label: 'View your profile', desc: 'Basic information about your account' },
+        email:   { icon: 'mail',      label: 'View your email address', desc: 'Your email address associated with this account' },
+    }; 
+%>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Authorize</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: "#eff6ff",
+              500: "#3b82f6",
+              600: "#2563eb",
+              700: "#1d4ed8",
+            },
+            accent: {
+              50: "#f5f3ff",
+            },
+            error: {
+              50: "#fef2f2",
+              100: "#fee2e2",
+              700: "#b91c1c",
+            },
+          },
+        },
+      },
+    };
+  </script>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-brand-50 via-white to-accent-50 px-4 py-8">
+    <div class="w-full max-w-md">
+      <!-- Logo / Brand -->
+      <div class="flex flex-col items-center mb-8">
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shadow-lg shadow-brand-500/30 mb-4">
+          <i data-lucide="shield-check" class="w-8 h-8 text-white"></i>
+        </div>
+
+        <h1 class="text-2xl font-bold text-slate-900">
+          Authorize application
+        </h1>
+
+        <p class="text-sm text-slate-500 mt-1">
+          Review the permissions before continuing
+        </p>
+      </div>
+
+      <!-- Card -->
+      <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 p-8">
+        <!-- Application -->
+        <div class="flex items-center gap-4 mb-6">
+          <div class="w-12 h-12 rounded-xl bg-brand-50 border border-brand-100 flex items-center justify-center flex-shrink-0">
+            <i data-lucide="app-window" class="w-6 h-6 text-brand-600"></i>
+          </div>
+
+          <div class="min-w-0">
+            <p class="text-xs text-slate-400 mb-0.5">Application</p>
+
+            <h2 class="text-base font-semibold text-slate-900 truncate">
+              <%= clientName || 'Application' %>
+            </h2>
+          </div>
+        </div>
+
+        <!-- Request message -->
+        <div class="mb-6">
+          <p class="text-sm text-slate-600 leading-6">
+            <strong class="font-semibold text-slate-900">
+              <%= clientName || 'This application' %>
+            </strong>
+            is requesting access to your account.
+          </p>
+        </div>
+
+        <!-- Account -->
+        <div class="mb-6 p-3 rounded-lg bg-brand-50 border border-brand-100">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-white border border-brand-100 flex items-center justify-center flex-shrink-0">
+              <i data-lucide="user" class="w-4 h-4 text-brand-600"></i>
+            </div>
+
+            <div class="min-w-0">
+              <p class="text-xs text-slate-500">Signed in as</p>
+
+              <p class="text-sm font-medium text-slate-800 truncate">
+                <%= userEmail || 'user@example.com' %>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Permissions -->
+        <div class="mb-6">
+          <h3 class="text-sm font-medium text-slate-700 mb-3">
+            This application will be able to:
+          </h3>
+
+          <div class="space-y-2.5">
+            <% 
+              scopes.forEach(scope => { 
+                const meta = scopeMeta[scope] || { icon: 'shield', label: scope, desc: '' }; 
+            %>
+            <!-- <%= meta.label %> -->
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center flex-shrink-0">
+                <i data-lucide="<%= meta.icon %>" class="w-4 h-4 text-slate-500"></i>
+              </div>
+
+              <div>
+                <p class="text-sm font-medium text-slate-700">
+                  <%= meta.label %>
+                </p>
+
+                <p class="text-xs text-slate-400 mt-0.5">
+                  <%= meta.desc %>
+                </p>
+              </div>
+            </div>
+            <% }); %>
+
+          </div>
+        </div>
+
+        <!-- Warning -->
+        <div class="flex items-start gap-2.5 p-3 rounded-lg bg-slate-50 border border-slate-100 mb-6">
+          <i data-lucide="info" class="w-4 h-4 text-slate-400 flex-shrink-0 mt-0.5"></i>
+
+          <p class="text-xs text-slate-500 leading-5">
+            You can revoke this application's access at any time from your
+            account settings.
+          </p>
+        </div>
+
+        <!-- Actions -->
+        <form method="post" class="space-y-3">
+          <button type="submit" name="action" value="allow" class="w-full py-2.5 rounded-lg bg-brand-600 text-white font-medium hover:bg-brand-700 focus:ring-2 focus:ring-brand-500/20 focus:outline-none transition-all flex items-center justify-center gap-2 text-sm shadow-md shadow-brand-500/20">
+            <i data-lucide="check" class="w-4 h-4"></i>
+            Allow access
+          </button>
+
+          <button type="submit" name="action" value="deny" class="w-full py-2.5 rounded-lg border border-slate-200 text-slate-700 font-medium hover:bg-slate-50 hover:border-slate-300 focus:ring-2 focus:ring-brand-500/20 focus:outline-none transition-all flex items-center justify-center gap-2 text-sm">
+            <i data-lucide="x" class="w-4 h-4"></i>
+            Deny
+          </button>
+        </form>
+      </div>
+
+      <!-- Security footer -->
+      <p class="text-center text-xs text-slate-400 mt-6 flex items-center justify-center gap-1.5">
+        <i data-lucide="shield" class="w-3 h-3"></i>
+
+        Your account information is protected
+      </p>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,56 @@
+{
+  "name": "anu-auth",
+  "version": "0.1.0",
+  "description": "OIDC Provider Service",
+  "keywords": [
+    "OAuth2",
+    "OIDC"
+  ],
+  "homepage": "https://github.com/koala0905/anu-auth#readme",
+  "bugs": {
+    "url": "https://github.com/koala0905/anu-auth/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koala0905/anu-auth.git"
+  },
+  "license": "ISC",
+  "author": "Pochun Tseng",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "imports": {
+    "#/*": {
+      "development": "./src/*",
+      "default": "./dist/*"
+    }
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.6.2",
+    "helmet": "^8.3.0",
+    "ioredis": "^6.0.0",
+    "oidc-provider": "^9.11.4",
+    "pg": "^8.23.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/ejs": "^3.1.5",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.2.0",
+    "@types/oidc-provider": "^9.11.1",
+    "@types/pg": "^8.23.1",
+    "tsx": "^4.23.12",
+    "typescript": "^7.0.2"
+  }
+}
