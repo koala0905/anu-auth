@@ -2,6 +2,12 @@ networks:
   anu-network:
     name: anu-network
     driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/24
+          ip_range: 172.20.0.128/25
+          gateway: 172.20.0.1
 
 services:
   auth:
@@ -11,8 +17,8 @@ services:
       - .env
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.auth.rule=Host(`auth.localhost`)"
+      - "traefik.http.routers.auth.rule=Host(`auth.traefik.me`)"
       - "traefik.http.routers.auth.entrypoints=web"
       - "traefik.http.services.auth.loadbalancer.server.port=3000"
     networks:
-      - anu-network
+      anu-network:

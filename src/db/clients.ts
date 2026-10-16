@@ -2,7 +2,7 @@ import pool from "./pg.js";
 
 export interface ClientRecord {
   client_id: string;
-  client_secret: string;
+  client_secret: string | null;
   redirect_uris: string[];
   grant_types: string[];
   response_types: string[];
@@ -50,14 +50,14 @@ export async function findClientById(
   const row = rows[0];
   const client: ClientRecord = {
     client_id: row.client_id,
-    client_secret: row.client_secret,
+    client_secret: row.client_secret ?? undefined,
     redirect_uris: row.redirect_uris,
     grant_types: row.grant_types,
     response_types: row.response_types,
     token_endpoint_auth_method: row.token_endpoint_auth_method,
     scope: row.allowed_scopes.join(" "),
     client_name: row.client_name,
-    logo_uri: row.logo_uri ?? null,
+    logo_uri: row.logo_uri ?? undefined,
     post_logout_redirect_uris: row.post_logout_redirect_uris ?? undefined,
     policy_uri: row.policy_uri ?? undefined,
     tos_uri: row.tos_uri ?? undefined,

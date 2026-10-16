@@ -54,7 +54,7 @@ async function main() {
   }
 
   app.listen(port, () => {
-    console.log(`[Auth Server] running on http://auth.localhost:${port}`);
+    console.log(`[Auth Server] running on http://auth.traefik.me:${port}`);
   });
 }
 
