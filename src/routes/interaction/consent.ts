@@ -52,13 +52,6 @@ export async function consentSubmit(req: Request, res: Response, details: any) {
 
   const grantId = await grant.save();
 
-  console.log(
-    "[interaction] consentSubmit: grantId:",
-    grantId,
-    "details",
-    details.prompt?.details,
-  );
-
   await provider.interactionFinished(req, res, {
     login: { accountId },
     consent: { grantId },

@@ -14,6 +14,7 @@ export interface UserCredentials {
   id: string;
   username: string;
   password_hash: string | null;
+  mfa_enabled: boolean;
 }
 
 export async function findUserByUsernameWithCredentials(
@@ -21,7 +22,7 @@ export async function findUserByUsernameWithCredentials(
 ): Promise<UserCredentials | null> {
   const { rows } = await pool.query(
     `
-    SELECT id, username, password_hash
+    SELECT id, username, password_hash, mfa_enabled
     FROM users
     WHERE username = $1
       AND deleted_at IS NULL;

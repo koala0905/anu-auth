@@ -99,7 +99,6 @@ class RedisAdapter {
   async find(id: string) {
     if (this.name === "Client") {
       const record = await findClientById(id);
-      console.log("[RedisAdapter.find] Client id:", id, "record:", record);
       if (!record) return undefined;
       return record as unknown as Record<string, unknown>;
     }

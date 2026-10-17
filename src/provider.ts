@@ -27,7 +27,6 @@ const provider = new oidc.Provider(config.issuer, {
   },
   findAccount: async (_ctx, sub) => {
     const user = await findUserById(sub);
-    console.log("[findAccount] sub:", sub, "user:", user);
     if (!user) return undefined;
     return {
       accountId: sub,
