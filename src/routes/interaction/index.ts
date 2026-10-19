@@ -2,6 +2,7 @@ import { Router } from "express";
 import provider from "#/provider.js";
 import { login, loginSubmit } from "./login.js";
 import { consent, consentSubmit } from "./consent.js";
+import { mfaGet, mfaSubmit } from "./mfa.js";
 
 type PromptDetails = {
   missingOIDCScope?: string[];
@@ -12,7 +13,6 @@ const router = Router();
 
 router.get("/:uid", async (req, res) => {
   const details = await provider.interactionDetails(req, res);
-  console.log("[interaction] GET details:", JSON.stringify(details));
   switch (details.prompt.name) {
     case "login":
       return login(req, res, details);
@@ -25,19 +25,29 @@ router.get("/:uid", async (req, res) => {
   }
 });
 
+router.get("/:uid/mfa", async (req, res) => {
+  try {
+    const details = await provider.interactionDetails(req, res);
+    return await mfaGet(req, res, details);
+  } catch (err) {
+    console.error("[interaction] mfa GET error:", err);
+    return res.redirect("/");
+  }
+});
+
+router.post("/:uid/mfa", async (req, res) => {
+  try {
+    const details = await provider.interactionDetails(req, res);
+    return await mfaSubmit(req, res, details);
+  } catch (err) {
+    console.error("[interaction] mfa POST error:", err);
+    return res.redirect("/");
+  }
+});
+
 router.post("/:uid", async (req, res) => {
   try {
     const details = await provider.interactionDetails(req, res);
-    console.log("[interaction] POST details:", JSON.stringify(details));
-    console.log(
-      "[consentSubmit] missingOIDCScope:",
-      details.prompt?.details?.missingOIDCScope,
-    );
-    console.log(
-      "[consentSubmit] missingOIDCClaims:",
-      details.prompt?.details?.missingOIDCClaims,
-    );
-    console.log("[consentSubmit] params.scope:", details.params?.scope);
 
     switch (details.prompt.name) {
       case "login":
